@@ -44,7 +44,7 @@
 }
 
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;height:100%}
+html,body{width:100%;max-width:100%;margin:0;padding:0;height:100%;overflow-x:hidden}
 body{
   min-width:320px;
   overflow:hidden;
@@ -804,7 +804,7 @@ button:focus-visible,input:focus-visible{
   flex:1;
   min-height:0;
   overflow:hidden;
-  background:radial-gradient(ellipse at 50% 58%,rgba(84,124,118,.2),transparent 44%),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px) 0 0/30px 30px,linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px) 0 0/30px 30px,linear-gradient(150deg,#263331,#151c1b 72%);
+  background:radial-gradient(ellipse at 50% 56%,rgba(104,151,143,.3),transparent 42%),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px) 0 0/30px 30px,linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px) 0 0/30px 30px,linear-gradient(150deg,#2a3836,#151c1b 72%);
 }
 #view3d-canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none}
 #view3d-canvas.is-dragging{cursor:grabbing}
@@ -873,7 +873,7 @@ button:focus-visible,input:focus-visible{
 
 /* ---------- 태블릿 세로 ---------- */
 @media (max-width:980px){
-  body{overflow:auto}
+  body{overflow-x:hidden;overflow-y:auto}
   #app{height:auto;min-height:100%}
   #topbar{gap:10px;padding:10px 12px;flex-wrap:wrap}
   .brand{min-width:0;margin-right:auto}
@@ -918,6 +918,8 @@ button:focus-visible,input:focus-visible{
   .preset-desc{min-height:0}
   .modal{align-items:flex-start;padding:14px}
   .modal-box{padding:21px 18px}
+  .field-input input,input[type="text"],input[type="number"],input[type="password"],textarea,select{max-width:100%;font-size:16px}
+  input.pin-input{font-size:28px}
   .bp-side{grid-template-columns:1fr}
   .bp-mini-wrap{text-align:left}
   .view3d-modal{padding:0}

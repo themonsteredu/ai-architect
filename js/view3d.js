@@ -19,7 +19,7 @@
   var statusEl;
   var design = null;
   var yaw = -0.52;
-  var pitch = 0.48;
+  var pitch = 0.62;
   var dragging = false;
   var pointerId = null;
   var lastX = 0;
@@ -31,16 +31,16 @@
   var TAU = Math.PI * 2;
   var PALETTES = {
     brick: {
-      front: '#bd6245', back: '#75301f', left: '#93402d', right: '#823522',
-      top: '#dc896a', bottom: '#542318'
+      front: '#cf6b4b', back: '#873722', left: '#a44830', right: '#903922',
+      top: '#efa07d', bottom: '#622719'
     },
     fixed: {
-      front: '#788581', back: '#414c49', left: '#596662', right: '#4a5652',
-      top: '#9aa4a0', bottom: '#303a37'
+      front: '#a8afa9', back: '#69736e', left: '#838c86', right: '#737d77',
+      top: '#d3d6cf', bottom: '#4c5752'
     },
     slab: {
-      front: '#394743', back: '#26312e', left: '#303d39', right: '#293532',
-      top: '#566560', bottom: '#1b2422'
+      front: '#33423e', back: '#23302d', left: '#2c3a36', right: '#26332f',
+      top: '#42534e', bottom: '#18211f'
     }
   };
 
@@ -56,7 +56,7 @@
     if (!ctx) return;
 
     doc.getElementById('btn-3d-close').onclick = close;
-    doc.getElementById('btn-3d-reset').onclick = function () { animateTo(0, 0.48); };
+    doc.getElementById('btn-3d-reset').onclick = function () { animateTo(0, 0.62); };
     doc.getElementById('btn-3d-left').onclick = function () { animateTo(yaw - Math.PI / 4, pitch); };
     doc.getElementById('btn-3d-right').onclick = function () { animateTo(yaw + Math.PI / 4, pitch); };
 
@@ -86,7 +86,7 @@
     lastFocus = doc.activeElement;
     dragging = false;
     yaw = -0.52;
-    pitch = 0.48;
+    pitch = 0.62;
 
     var ok = opts && opts.status === 'ok';
     statusEl.textContent = ok ? '✓ 구조 검증 통과' : '○ 안전함 · 아직 설계 중';
@@ -210,8 +210,8 @@
 
     if (!isFinite(minX)) { minX = 0; maxX = CONFIG.boardWidth; }
     var modelW = Math.max(cell * 4, maxX - minX);
-    var slabW = Math.min(CONFIG.boardWidth, modelW + cell * 4);
-    var slabD = Math.min(CONFIG.boardDepth, Math.max(maxZ + depthUnit * 5, depthUnit * 7));
+    var slabW = Math.min(CONFIG.boardWidth, modelW + cell * 2);
+    var slabD = Math.min(CONFIG.boardDepth, Math.max(maxZ + depthUnit * 3, depthUnit * 5));
     var centerX = (minX + maxX) / 2;
     var centerZ = maxZ / 2;
     addCuboid(cuboids, centerX - slabW / 2, -row * 0.28, centerZ - slabD / 2,
@@ -300,10 +300,13 @@
       for (var v = 0; v < source.length; v++) {
         camera[v] = cameraPoint(source[v], scene);
         screen[v] = project(camera[v]);
-        bounds.minX = Math.min(bounds.minX, screen[v].x);
-        bounds.maxX = Math.max(bounds.maxX, screen[v].x);
-        bounds.minY = Math.min(bounds.minY, screen[v].y);
-        bounds.maxY = Math.max(bounds.maxY, screen[v].y);
+        /* 받침판이 아니라 실제 벽돌을 기준으로 화면을 꽉 채웁니다. */
+        if (cuboid.type !== 'slab') {
+          bounds.minX = Math.min(bounds.minX, screen[v].x);
+          bounds.maxX = Math.max(bounds.maxX, screen[v].x);
+          bounds.minY = Math.min(bounds.minY, screen[v].y);
+          bounds.maxY = Math.max(bounds.maxY, screen[v].y);
+        }
       }
 
       for (var f = 0; f < definitions.length; f++) {
@@ -324,16 +327,16 @@
 
     var spanX = Math.max(1, bounds.maxX - bounds.minX);
     var spanY = Math.max(1, bounds.maxY - bounds.minY);
-    var padX = width < 520 ? 30 : 66;
+    var padX = width < 520 ? 38 : 52;
     var padY = height < 500 ? 52 : 82;
     var scale = Math.min((width - padX) / spanX, (height - padY) / spanY);
     var ox = width / 2 - (bounds.minX + bounds.maxX) * scale / 2;
     var oy = height / 2 - (bounds.minY + bounds.maxY) * scale / 2 - 2;
 
     ctx.save();
-    ctx.fillStyle = 'rgba(0,0,0,.2)';
+    ctx.fillStyle = 'rgba(0,0,0,.16)';
     ctx.beginPath();
-    ctx.ellipse(width / 2, height * 0.72, Math.min(width * 0.32, 260), Math.min(height * 0.055, 30), 0, 0, TAU);
+    ctx.ellipse(width / 2, height * 0.72, Math.min(width * 0.25, 220), Math.min(height * 0.045, 25), 0, 0, TAU);
     ctx.fill();
     ctx.restore();
 
@@ -366,12 +369,17 @@
     var base = colorVariation(palette[face.name], variation);
     var gradient = ctx.createLinearGradient(minX, minY, maxX, maxY);
     gradient.addColorStop(0, base);
-    gradient.addColorStop(1, colorVariation(palette[face.name], variation - 10));
+    gradient.addColorStop(1, colorVariation(palette[face.name], variation - 6));
+    ctx.save();
+    if (face.type === 'slab') ctx.globalAlpha = 0.42;
     ctx.fillStyle = gradient;
     ctx.fill();
-    ctx.lineWidth = face.type === 'slab' ? 0.8 : 1;
-    ctx.strokeStyle = face.type === 'slab' ? 'rgba(194,214,207,.14)' : 'rgba(58,25,18,.64)';
+    ctx.lineWidth = face.type === 'slab' ? 0.8 : 1.15;
+    ctx.strokeStyle = face.type === 'slab'
+      ? 'rgba(194,214,207,.18)'
+      : (face.type === 'fixed' ? 'rgba(235,240,234,.28)' : 'rgba(61,22,13,.78)');
     ctx.stroke();
+    ctx.restore();
 
     if (face.name === 'top' && face.type !== 'slab') {
       ctx.beginPath();
