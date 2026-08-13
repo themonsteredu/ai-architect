@@ -48,16 +48,16 @@
 
     s.push('<svg class="bp-svg" viewBox="0 0 ' + (W + pad * 2) + ' ' + (H + pad * 2) + '" width="100%" preserveAspectRatio="xMidYMid meet">');
     s.push('<defs><pattern id="' + id + '" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">' +
-           '<rect width="6" height="6" fill="#fff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#b06a52" stroke-width="2"/></pattern></defs>');
+           '<rect width="6" height="6" fill="#fff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#b76348" stroke-width="2"/></pattern></defs>');
     s.push('<g transform="translate(' + pad + ',' + pad + ')">');
 
     /* 격자 */
     var x, y;
     for (x = 0; x <= cols; x++) {
-      s.push('<line x1="' + (x * cw) + '" y1="0" x2="' + (x * cw) + '" y2="' + H + '" stroke="#e6e6e6" stroke-width="1"/>');
+      s.push('<line x1="' + (x * cw) + '" y1="0" x2="' + (x * cw) + '" y2="' + H + '" stroke="#cbd7d8" stroke-width="1"/>');
     }
     for (y = 0; y <= usedRows; y++) {
-      s.push('<line x1="0" y1="' + (y * ch) + '" x2="' + W + '" y2="' + (y * ch) + '" stroke="#e6e6e6" stroke-width="1"/>');
+      s.push('<line x1="0" y1="' + (y * ch) + '" x2="' + W + '" y2="' + (y * ch) + '" stroke="#cbd7d8" stroke-width="1"/>');
     }
 
     /* 벽돌 */
@@ -68,25 +68,25 @@
       var by = (usedRows - 1 - b.y) * ch;
       var thin = M.wythesOf(b) === 1;
       s.push('<rect x="' + (bx + 1) + '" y="' + (by + 1) + '" width="' + (sp.w * cw - 2) + '" height="' + (ch - 2) +
-             '" rx="2" fill="' + (thin ? 'url(#' + id + ')' : '#f0ded6') + '" stroke="#8b3a24" stroke-width="1.6"/>');
+             '" rx="2" fill="' + (thin ? 'url(#' + id + ')' : '#ead5cc') + '" stroke="#7c321f" stroke-width="1.6"/>');
       if (b.orient === 'head') {
         s.push('<line x1="' + (bx + 4) + '" y1="' + (by + ch / 2) + '" x2="' + (bx + cw - 4) + '" y2="' + (by + ch / 2) +
-               '" stroke="#8b3a24" stroke-width="1" stroke-dasharray="2 2"/>');
+               '" stroke="#7c321f" stroke-width="1" stroke-dasharray="2 2"/>');
       }
     }
 
     /* 받침판 */
-    s.push('<rect x="-6" y="' + H + '" width="' + (W + 12) + '" height="10" fill="#c9a227" stroke="#8a6f16" stroke-width="1"/>');
-    s.push('<text x="' + (W / 2) + '" y="' + (H + 26) + '" text-anchor="middle" font-size="12" fill="#555">받침판 ' + CONFIG.boardWidth + 'mm</text>');
+    s.push('<rect x="-6" y="' + H + '" width="' + (W + 12) + '" height="10" fill="#a88736" stroke="#6f591e" stroke-width="1"/>');
+    s.push('<text x="' + (W / 2) + '" y="' + (H + 26) + '" text-anchor="middle" font-size="12" fill="#44545a">받침판 ' + CONFIG.boardWidth + 'mm</text>');
 
     /* 문 표시 */
     var op = design.meta.opening;
     var ox = op[0] * cw, ow = (op[1] - op[0] + 1) * cw;
-    s.push('<line x1="' + ox + '" y1="' + (H + 14) + '" x2="' + (ox + ow) + '" y2="' + (H + 14) + '" stroke="#1f6feb" stroke-width="2"/>');
-    s.push('<text x="' + (ox + ow / 2) + '" y="' + (H + 11) + '" text-anchor="middle" font-size="11" fill="#1f6feb">문 ' + (ow / cw * CONFIG.cellMm) + 'mm</text>');
+    s.push('<line x1="' + ox + '" y1="' + (H + 14) + '" x2="' + (ox + ow) + '" y2="' + (H + 14) + '" stroke="#176ca7" stroke-width="2"/>');
+    s.push('<text x="' + (ox + ow / 2) + '" y="' + (H + 11) + '" text-anchor="middle" font-size="11" fill="#176ca7">문 ' + (ow / cw * CONFIG.cellMm) + 'mm</text>');
 
     /* 높이 */
-    s.push('<text x="-8" y="' + (ch / 2 + 4) + '" text-anchor="end" font-size="11" fill="#555">' + usedRows + '층</text>');
+    s.push('<text x="-8" y="' + (ch / 2 + 4) + '" text-anchor="end" font-size="11" fill="#44545a">' + usedRows + '층</text>');
 
     s.push('</g></svg>');
     return s.join('');
@@ -109,7 +109,7 @@
 
     s.push('<svg class="bp-svg" viewBox="0 0 ' + (W + pad * 2) + ' ' + (H + pad * 2 + 16) + '" width="100%" preserveAspectRatio="xMidYMid meet">');
     s.push('<defs><pattern id="' + id + '" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">' +
-           '<rect width="6" height="6" fill="#fff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#b06a52" stroke-width="2"/></pattern></defs>');
+           '<rect width="6" height="6" fill="#fff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#b76348" stroke-width="2"/></pattern></defs>');
     s.push('<g transform="translate(' + pad + ',' + pad + ')">');
 
     /* 아래층 자리 (연한 회색) — 줄 맞추는 기준 */
@@ -120,15 +120,15 @@
           var wy = M.wythesOf(maps.byId[below]);
           var gy = (wy >= 2) ? 0 : dh;
           var gh = (wy >= 2) ? H : dh;
-          s.push('<rect x="' + (gx * cw) + '" y="' + gy + '" width="' + cw + '" height="' + gh + '" fill="#f4f4f4"/>');
+          s.push('<rect x="' + (gx * cw) + '" y="' + gy + '" width="' + cw + '" height="' + gh + '" fill="#edf2f2"/>');
         }
       }
     }
 
     /* 격자 */
     var x, yy;
-    for (x = 0; x <= cols; x++) s.push('<line x1="' + (x * cw) + '" y1="0" x2="' + (x * cw) + '" y2="' + H + '" stroke="#e6e6e6"/>');
-    for (yy = 0; yy <= 2; yy++) s.push('<line x1="0" y1="' + (yy * dh) + '" x2="' + W + '" y2="' + (yy * dh) + '" stroke="#e6e6e6"/>');
+    for (x = 0; x <= cols; x++) s.push('<line x1="' + (x * cw) + '" y1="0" x2="' + (x * cw) + '" y2="' + H + '" stroke="#cbd7d8"/>');
+    for (yy = 0; yy <= 2; yy++) s.push('<line x1="0" y1="' + (yy * dh) + '" x2="' + W + '" y2="' + (yy * dh) + '" stroke="#cbd7d8"/>');
 
     /* 이 층의 벽돌 */
     for (var i = 0; i < layer.items.length; i++) {
@@ -146,30 +146,30 @@
         else { ry = dh; rh = dh; }
 
         s.push('<rect x="' + (bx + 1.5) + '" y="' + (ry + 1.5) + '" width="' + (bw - 3) + '" height="' + (rh - 3) +
-               '" rx="2" fill="' + (thin ? 'url(#' + id + ')' : '#f7ece7') + '" stroke="' + (it.needsProp ? '#c0392b' : '#8b3a24') +
+               '" rx="2" fill="' + (thin ? 'url(#' + id + ')' : '#f0ded7') + '" stroke="' + (it.needsProp ? '#c33b37' : '#7c321f') +
                '" stroke-width="' + (it.needsProp ? 2.4 : 1.6) + '"/>');
 
         var cxp = bx + bw / 2, cyp = ry + rh / 2;
         var r = Math.min(cw, rh) * 0.32;
-        s.push('<circle cx="' + cxp + '" cy="' + cyp + '" r="' + r + '" fill="#fff" stroke="#333" stroke-width="1.4"/>');
+        s.push('<circle cx="' + cxp + '" cy="' + cyp + '" r="' + r + '" fill="#fff" stroke="#183844" stroke-width="1.4"/>');
         s.push('<text x="' + cxp + '" y="' + (cyp + r * 0.42) + '" text-anchor="middle" font-size="' + (r * 1.15).toFixed(1) +
-               '" font-weight="700" fill="#111">' + entry.n + '</text>');
+               '" font-weight="700" fill="#183844">' + entry.n + '</text>');
       }
 
       if (it.needsProp) {
-        s.push('<text x="' + (bx + bw / 2) + '" y="-6" text-anchor="middle" font-size="13" fill="#c0392b">▼받침</text>');
+        s.push('<text x="' + (bx + bw / 2) + '" y="-6" text-anchor="middle" font-size="13" fill="#c33b37">▼받침</text>');
       }
     }
 
     /* 앞/뒤 표시 */
-    s.push('<text x="-8" y="' + (dh * 0.5 + 4) + '" text-anchor="end" font-size="12" fill="#555">뒷줄</text>');
-    s.push('<text x="-8" y="' + (dh * 1.5 + 4) + '" text-anchor="end" font-size="12" fill="#555">앞줄</text>');
-    s.push('<text x="' + (W / 2) + '" y="' + (H + 22) + '" text-anchor="middle" font-size="12" fill="#555">↑ 이쪽이 앞 (보는 쪽)</text>');
+    s.push('<text x="-8" y="' + (dh * 0.5 + 4) + '" text-anchor="end" font-size="12" fill="#44545a">뒷줄</text>');
+    s.push('<text x="-8" y="' + (dh * 1.5 + 4) + '" text-anchor="end" font-size="12" fill="#44545a">앞줄</text>');
+    s.push('<text x="' + (W / 2) + '" y="' + (H + 22) + '" text-anchor="middle" font-size="12" fill="#44545a">↑ 이쪽이 앞 (보는 쪽)</text>');
 
     /* 문 위치 */
     var op = layer.opening;
-    s.push('<line x1="' + (op[0] * cw) + '" y1="-14" x2="' + ((op[1] + 1) * cw) + '" y2="-14" stroke="#1f6feb" stroke-width="2" stroke-dasharray="5 3"/>');
-    s.push('<text x="' + (((op[0] + op[1] + 1) / 2) * cw) + '" y="-18" text-anchor="middle" font-size="11" fill="#1f6feb">문 자리</text>');
+    s.push('<line x1="' + (op[0] * cw) + '" y1="-14" x2="' + ((op[1] + 1) * cw) + '" y2="-14" stroke="#176ca7" stroke-width="2" stroke-dasharray="5 3"/>');
+    s.push('<text x="' + (((op[0] + op[1] + 1) / 2) * cw) + '" y="-18" text-anchor="middle" font-size="11" fill="#176ca7">문 자리</text>');
 
     /* 칸 눈금 (5칸마다) */
     for (x = 0; x < cols; x += 5) {
@@ -193,7 +193,7 @@
       var sp = M.spans(b.orient);
       var on = (b.y === row);
       s.push('<rect x="' + (b.x * cw) + '" y="' + ((usedRows - 1 - b.y) * ch) + '" width="' + (sp.w * cw) + '" height="' + ch +
-             '" fill="' + (on ? '#e8503a' : '#eee') + '" stroke="' + (on ? '#8b2010' : '#ccc') + '" stroke-width="1"/>');
+             '" fill="' + (on ? '#c96f50' : '#e3e9e9') + '" stroke="' + (on ? '#7c321f' : '#aebbbc') + '" stroke-width="1"/>');
     }
     s.push('</svg>');
     return s.join('');

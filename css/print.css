@@ -1,51 +1,67 @@
 /* ===================================================================
-   print.css — 인쇄용
-   화면 것은 모두 감추고 도면만 A4 세로로, 층마다 한 장씩 나옵니다.
+   코벨문 조립 도면 — A4 세로 인쇄
+   화면 UI는 숨기고 .sheet 하나를 정확히 한 페이지에 배치합니다.
    =================================================================== */
 
-@page{ size:A4 portrait; margin:12mm; }
+@page{size:A4 portrait;margin:11mm 12mm}
 
-html,body{background:#fff !important;height:auto !important}
+html,body{
+  width:auto !important;
+  height:auto !important;
+  overflow:visible !important;
+  color:#1d2b31 !important;
+  background:#fff !important;
+}
 
-#app,#start-modal,#settings-modal,.bp-bar{ display:none !important; }
+#app,#start-modal,#settings-modal,.bp-bar{display:none !important}
 
 #blueprint-modal{
-  display:block !important;
   position:static !important;
-  background:#fff !important;
-  padding:0 !important;
+  display:block !important;
   overflow:visible !important;
+  padding:0 !important;
+  background:#fff !important;
 }
-.bp-body{ padding:0 !important; }
+.bp-body{min-height:0 !important;padding:0 !important;background:#fff !important}
 
 .sheet{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:visible !important;
+  background:#fff !important;
   border:0 !important;
   border-radius:0 !important;
-  padding:0 !important;
-  margin:0 auto !important;
-  max-width:none !important;
-  page-break-after:always;
+  box-shadow:none !important;
+  break-inside:avoid-page;
+  page-break-inside:avoid;
   break-after:page;
+  page-break-after:always;
 }
-.sheet:last-child{ page-break-after:auto; break-after:auto; }
+.sheet::after{display:none !important}
+.sheet:last-child{break-after:auto;page-break-after:auto}
 
-.sheet-head{ border-bottom:2px solid #000 !important; }
-.sheet-head h1{ font-size:18pt; }
-.sheet-sub{ font-size:9pt; color:#444 !important; }
+.sheet-head{margin-bottom:5mm;padding-bottom:2.5mm;border-bottom:1.2pt solid #183844 !important}
+.sheet-head h1{font-size:17pt;line-height:1.18}
+.sheet-range{font-size:11pt}
+.sheet-sub{margin-top:1.2mm;color:#44545a !important;font-size:9pt;line-height:1.4}
 
-.bp-figure{ margin:8mm 0 6mm; }
-.bp-svg{ width:100%; max-height:110mm; }
+.bp-figure{margin:3mm 0 5mm;padding:2mm;border:.6pt solid #ccd4d4 !important}
+.bp-svg{width:100%;max-height:106mm}
 
-.bp-table,.bp-order{ font-size:9pt; }
-.bp-table th,.bp-table td,.bp-order th,.bp-order td{ border:1px solid #999 !important; }
-.bp-table th,.bp-order th{ background:#f0f0f0 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-.bp-order td.num{ font-size:12pt; }
-.bp-order tr.row-warn td{ background:#f6f6f6 !important; }
+.bp-table,.bp-order{font-size:8.7pt}
+.bp-table th,.bp-table td,.bp-order th,.bp-order td{padding:1.6mm 2.2mm;border:.7pt solid #8d999b !important}
+.bp-table th,.bp-order th{color:#183844 !important;background:#edf2f2 !important}
+.bp-order td.num{width:12mm;font-size:13pt;line-height:1.15}
+.bp-order tr.row-warn td{background:#fff0ee !important}
 
-.bp-legend,.bp-howto{ font-size:8.5pt; }
-.bp-howto{ background:#f5f5f5 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bp-legend{gap:5mm;padding-top:3mm;font-size:8.2pt}
+.bp-howto{margin-top:3mm;padding:2.5mm 3mm;border-left:2.5pt solid #176ca7 !important;font-size:8.5pt;line-height:1.5;background:#eef3f2 !important}
+.bp-side{grid-template-columns:auto 1fr;gap:5mm}
+.bp-mini-label{font-size:8pt}
+.bp-mini{border:.7pt solid #8d999b !important}
 
-.tag-warn,.tag-answer{ border:1px solid #666 !important; }
+.tag-warn,.tag-answer{padding:.7mm 1.5mm;border:.7pt solid #666 !important;font-size:8pt}
 
-/* 도면의 색을 그대로 인쇄 (벽돌 채움, 경고 빨강 등) */
-*{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
