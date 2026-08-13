@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>코벨문 설계 — 건축가 체험</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/print.css" media="print">
+</head>
+<body>
+
+<div id="app">
+
+  <header id="topbar">
+    <div class="brand"><span class="brand-mark">◭</span> 코벨문 설계 <small>건축가 체험</small></div>
+
+    <div class="usage-wrap">
+      <div class="usage-track"><div id="usage-bar"></div></div>
+      <span id="usage">사용 0 / 60장</span>
+    </div>
+
+    <div id="ratio-warn" class="ratio-warn"></div>
+
+    <div class="top-actions">
+      <button id="btn-check" class="btn btn-primary">세워보기</button>
+      <button id="btn-blueprint" class="btn">도면</button>
+      <button id="btn-answer" class="btn btn-ghost" style="display:none">정답 도면</button>
+      <button id="btn-sound" class="btn btn-icon">🔊 소리 켜짐</button>
+      <button id="btn-settings" class="btn btn-icon">⚙ 설정</button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <nav id="toolbar">
+      <div class="tool-group">
+        <div class="tool-label">벽돌 방향</div>
+        <button data-orient="lie" class="tool on"><span class="ico ico-lie"></span><span class="tool-text">눕히기<em>가로 2칸</em></span></button>
+        <button data-orient="head" class="tool"><span class="ico ico-head"></span><span class="tool-text">세우기<em>가로 1칸</em></span></button>
+      </div>
+
+      <div class="tool-group">
+        <div class="tool-label">벽 두께</div>
+        <button data-wythes="2" class="tool on"><span class="ico ico-w2"></span><span class="tool-text">두 겹<em>앞줄+뒷줄 · 2장</em></span></button>
+        <button data-wythes="1" class="tool"><span class="ico ico-w1"></span><span class="tool-text">한 겹<em>앞줄만 · 1장</em></span></button>
+      </div>
+
+      <div class="tool-group">
+        <div class="tool-label">도구</div>
+        <button data-tool="place" class="tool on">놓기</button>
+        <button data-tool="erase" class="tool">지우기</button>
+      </div>
+
+      <div class="tool-group">
+        <button id="btn-undo" class="tool wide">↩ 되돌리기</button>
+        <button id="btn-hint" class="tool wide">💡 힌트</button>
+        <button id="btn-restart" class="tool wide">처음부터</button>
+      </div>
+
+      <div id="hint-note" class="hint-note"></div>
+    </nav>
+
+    <section id="stage">
+      <div id="board"></div>
+    </section>
+
+    <aside id="panel">
+      <div id="msg" class="msg"></div>
+      <div id="answer-badge" class="answer-badge" style="display:none">📖 정답 도면을 열어봤어요</div>
+      <div id="result"></div>
+      <div id="aesthetics"></div>
+
+      <div class="legend">
+        <div class="legend-title">표시 보는 법</div>
+        <ul>
+          <li><i class="lg lg-spot"></i> 놓을 수 있는 자리</li>
+          <li><i class="lg lg-w2"></i> 두 겹 (앞줄+뒷줄, 벽돌 2장)</li>
+          <li><i class="lg lg-w1"></i> 한 겹 (앞줄만, 벽돌 1장)</li>
+          <li><i class="lg lg-fix"></i> 미리 깔아둔 기초</li>
+          <li><i class="lg lg-com"></i> 무게중심 — 초록이면 안 넘어짐</li>
+        </ul>
+        <div class="legend-note">
+          <b>코벨(내밀어쌓기)</b> — 위 벽돌을 아래 벽돌보다 반 장씩만 안으로 내밀어
+          양쪽에서 가운데로 다가가면, 아치 없이도 문이 닫힙니다.
+        </div>
+      </div>
+    </aside>
+
+  </main>
+</div>
+
+<div id="start-modal" class="modal"></div>
+<div id="settings-modal" class="modal"></div>
+
+<div id="blueprint-modal" class="modal modal-full">
+  <div class="bp-bar">
+    <strong>조립 도면</strong>
+    <span class="bp-bar-note">층별로 한 장씩 인쇄됩니다. 번호는 그 층 안에서의 순서입니다.</span>
+    <span class="spacer"></span>
+    <button id="btn-print" class="btn btn-primary">🖨 인쇄</button>
+    <button id="btn-bp-close" class="btn">닫기</button>
+  </div>
+  <div id="blueprint-body" class="bp-body"></div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/model.js"></script>
+<script src="js/rules.js"></script>
+<script src="js/foundation.js"></script>
+<script src="js/balance.js"></script>
+<script src="js/aesthetics.js"></script>
+<script src="js/order.js"></script>
+<script src="js/validate.js"></script>
+<script src="js/solver.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/collapse.js"></script>
+<script src="js/blueprint.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

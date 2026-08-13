@@ -1,0 +1,51 @@
+/* ===================================================================
+   print.css — 인쇄용
+   화면 것은 모두 감추고 도면만 A4 세로로, 층마다 한 장씩 나옵니다.
+   =================================================================== */
+
+@page{ size:A4 portrait; margin:12mm; }
+
+html,body{background:#fff !important;height:auto !important}
+
+#app,#start-modal,#settings-modal,.bp-bar{ display:none !important; }
+
+#blueprint-modal{
+  display:block !important;
+  position:static !important;
+  background:#fff !important;
+  padding:0 !important;
+  overflow:visible !important;
+}
+.bp-body{ padding:0 !important; }
+
+.sheet{
+  border:0 !important;
+  border-radius:0 !important;
+  padding:0 !important;
+  margin:0 auto !important;
+  max-width:none !important;
+  page-break-after:always;
+  break-after:page;
+}
+.sheet:last-child{ page-break-after:auto; break-after:auto; }
+
+.sheet-head{ border-bottom:2px solid #000 !important; }
+.sheet-head h1{ font-size:18pt; }
+.sheet-sub{ font-size:9pt; color:#444 !important; }
+
+.bp-figure{ margin:8mm 0 6mm; }
+.bp-svg{ width:100%; max-height:110mm; }
+
+.bp-table,.bp-order{ font-size:9pt; }
+.bp-table th,.bp-table td,.bp-order th,.bp-order td{ border:1px solid #999 !important; }
+.bp-table th,.bp-order th{ background:#f0f0f0 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bp-order td.num{ font-size:12pt; }
+.bp-order tr.row-warn td{ background:#f6f6f6 !important; }
+
+.bp-legend,.bp-howto{ font-size:8.5pt; }
+.bp-howto{ background:#f5f5f5 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+.tag-warn,.tag-answer{ border:1px solid #666 !important; }
+
+/* 도면의 색을 그대로 인쇄 (벽돌 채움, 경고 빨강 등) */
+*{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
