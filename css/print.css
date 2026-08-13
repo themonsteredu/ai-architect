@@ -13,7 +13,7 @@ html,body{
   background:#fff !important;
 }
 
-#app,#start-modal,#settings-modal,.bp-bar{display:none !important}
+#app,#start-modal,#settings-modal,#view3d-modal,.bp-bar{display:none !important}
 
 #blueprint-modal{
   position:static !important;

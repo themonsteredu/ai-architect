@@ -33,7 +33,7 @@
     <div id="ratio-warn" class="ratio-warn"></div>
 
     <div class="top-actions">
-      <button id="btn-check" class="btn btn-primary">세워보기</button>
+      <button id="btn-check" class="btn btn-primary">360° 세워보기</button>
       <button id="btn-blueprint" class="btn">도면</button>
       <button id="btn-answer" class="btn btn-ghost" style="display:none">정답 도면</button>
       <button id="btn-sound" class="btn btn-icon">🔊 소리 켜짐</button>
@@ -103,6 +103,31 @@
 <div id="start-modal" class="modal"></div>
 <div id="settings-modal" class="modal"></div>
 
+<div id="view3d-modal" class="modal view3d-modal" role="dialog" aria-modal="true" aria-labelledby="view3d-title">
+  <section class="view3d-shell">
+    <header class="view3d-head">
+      <div>
+        <span class="view3d-kicker">360° STRUCTURE VIEW</span>
+        <h2 id="view3d-title">코벨문 입체 세워보기</h2>
+      </div>
+      <div id="view3d-status" class="view3d-status"></div>
+      <button id="btn-3d-close" class="btn" type="button">닫기</button>
+    </header>
+    <div class="view3d-stage">
+      <canvas id="view3d-canvas" aria-label="손가락으로 좌우와 위아래로 돌려 보는 코벨문 3D 모형"></canvas>
+      <div class="view3d-drag-hint" aria-hidden="true"><span>↔</span> 손가락으로 밀어서 360° 회전</div>
+      <div class="view3d-angle"><span>회전 각도</span><strong id="view3d-angle">0°</strong></div>
+      <div class="view3d-axis" aria-hidden="true"><i></i><span>정면</span></div>
+    </div>
+    <footer class="view3d-controls" aria-label="3D 보기 조작">
+      <button id="btn-3d-left" class="btn" type="button" aria-label="왼쪽으로 45도 회전">↶ 45°</button>
+      <button id="btn-3d-reset" class="btn btn-primary" type="button">정면으로</button>
+      <button id="btn-3d-right" class="btn" type="button" aria-label="오른쪽으로 45도 회전">45° ↷</button>
+      <span class="view3d-control-note">위아래로 밀면 보는 높이도 바뀝니다.</span>
+    </footer>
+  </section>
+</div>
+
 <div id="blueprint-modal" class="modal modal-full">
   <div class="bp-bar">
     <strong>조립 도면</strong>
@@ -127,6 +152,7 @@
 <script src="js/collapse.js"></script>
 <script src="js/blueprint.js"></script>
 <script src="js/settings.js"></script>
+<script src="js/view3d.js"></script>
 <script src="js/app.js"></script>
 
 </body>

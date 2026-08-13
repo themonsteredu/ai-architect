@@ -490,6 +490,8 @@
         midX: (gate[0] + gate[1] + 1) / 2,
         onDone: function () { state.busy = false; render(); }
       });
+    } else if (App.View3D) {
+      App.View3D.open(state.design, { status: res.status });
     }
   }
 
@@ -499,6 +501,9 @@
       '<div class="result-title">' + res.title + '</div>',
       '<div class="result-reason">' + res.reason + '</div>',
       '<div class="result-detail">' + (res.detail || '') + '</div>'];
+    if (res.status !== 'collapse') {
+      h.push('<button class="btn" id="btn-open-3d">360° 입체로 돌려보기</button>');
+    }
     if (res.status === 'ok') {
       h.push('<button class="btn btn-primary" id="btn-open-bp">조립 도면 보기</button>');
     }
@@ -506,6 +511,8 @@
     el.result.innerHTML = h.join('');
     var open = doc.getElementById('btn-open-bp');
     if (open) open.onclick = function () { openBlueprint(state.design, false); };
+    var open3d = doc.getElementById('btn-open-3d');
+    if (open3d) open3d.onclick = function () { App.View3D.open(state.design, { status: res.status }); };
 
     /* 미적 규칙 안내 */
     var a = res.aesthetics || [];

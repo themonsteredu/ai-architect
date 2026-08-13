@@ -3,6 +3,21 @@
    따뜻한 테라코타 재료감과 블루프린트 작업대의 정밀함을 결합합니다.
    =================================================================== */
 
+@font-face{
+  font-family:'S-Core Dream';
+  src:url('../fonts/SCDream5.otf') format('opentype');
+  font-style:normal;
+  font-weight:500;
+  font-display:swap;
+}
+@font-face{
+  font-family:'S-Core Dream';
+  src:url('../fonts/SCDream7.otf') format('opentype');
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+}
+
 :root{
   --bg:#e9e5dc;
   --paper:#fffdf8;
@@ -33,13 +48,14 @@ html,body{margin:0;padding:0;height:100%}
 body{
   min-width:320px;
   overflow:hidden;
-  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Segoe UI",sans-serif;
+  font-family:'S-Core Dream',-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Segoe UI",sans-serif;
   background:var(--bg);
   color:var(--ink);
   font-size:15px;
   -webkit-text-size-adjust:100%;
   -webkit-tap-highlight-color:transparent;
 }
+body.view3d-open{overflow:hidden}
 button,input{font:inherit}
 button{touch-action:manipulation}
 button:focus-visible,input:focus-visible{
@@ -734,6 +750,127 @@ button:focus-visible,input:focus-visible{
 .bp-order td.num{width:46px;color:var(--navy);font-size:16px;font-weight:850;text-align:center}
 .bp-order tr.row-warn td{background:#fff2f0}
 
+/* ---------- 360° 입체 세워보기 ---------- */
+.view3d-modal{
+  z-index:70;
+  padding:18px;
+  overflow:hidden;
+  background:radial-gradient(circle at 50% 28%,rgba(61,101,97,.24),transparent 42%),rgba(8,20,23,.94);
+  backdrop-filter:blur(8px);
+}
+.view3d-shell{
+  display:flex;
+  flex-direction:column;
+  width:min(1120px,100%);
+  height:min(820px,calc(100vh - 36px));
+  height:min(820px,calc(100dvh - 36px));
+  min-height:560px;
+  overflow:hidden;
+  color:#f7f3e9;
+  background:#192221;
+  border:1px solid rgba(255,255,255,.17);
+  border-top:4px solid var(--brick);
+  border-radius:5px 5px 14px 14px;
+  box-shadow:0 35px 90px rgba(0,0,0,.48);
+}
+.view3d-head{
+  position:relative;
+  z-index:3;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  min-height:76px;
+  padding:11px 16px 11px 20px;
+  background:#202a29;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.view3d-kicker{display:block;margin-bottom:4px;color:#d89076;font-size:9px;font-weight:800;letter-spacing:.18em}
+.view3d-head h2{margin:0;font-size:21px;font-weight:800;letter-spacing:-.04em}
+.view3d-status{
+  margin-left:auto;
+  padding:8px 11px;
+  color:#bee7d7;
+  background:rgba(38,155,114,.12);
+  border:1px solid rgba(91,203,162,.27);
+  border-radius:6px;
+  font-size:12px;
+  font-weight:700;
+}
+.view3d-status.warn{color:#ffe4a0;background:rgba(214,163,33,.12);border-color:rgba(255,215,111,.28)}
+.view3d-head .btn{color:#fff;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2);box-shadow:none}
+.view3d-head .btn:hover{background:rgba(255,255,255,.14)}
+.view3d-stage{
+  position:relative;
+  flex:1;
+  min-height:0;
+  overflow:hidden;
+  background:radial-gradient(ellipse at 50% 58%,rgba(84,124,118,.2),transparent 44%),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px) 0 0/30px 30px,linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px) 0 0/30px 30px,linear-gradient(150deg,#263331,#151c1b 72%);
+}
+#view3d-canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none}
+#view3d-canvas.is-dragging{cursor:grabbing}
+.view3d-drag-hint{
+  position:absolute;
+  left:18px;
+  bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 11px;
+  color:rgba(255,255,255,.7);
+  background:rgba(8,18,18,.58);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:5px;
+  font-size:12px;
+  pointer-events:none;
+}
+.view3d-drag-hint span{color:#7ed4b1;font-size:17px}
+.view3d-angle{
+  position:absolute;
+  right:18px;
+  bottom:16px;
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  color:rgba(255,255,255,.55);
+  font-size:11px;
+  pointer-events:none;
+}
+.view3d-angle strong{color:#fff;font-size:18px;font-weight:800;font-variant-numeric:tabular-nums}
+.view3d-axis{
+  position:absolute;
+  top:18px;
+  right:18px;
+  display:grid;
+  place-items:center;
+  width:60px;
+  height:60px;
+  color:rgba(255,255,255,.48);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:50%;
+  font-size:9px;
+  pointer-events:none;
+}
+.view3d-axis::before,.view3d-axis::after{content:'';position:absolute;background:rgba(255,255,255,.12)}
+.view3d-axis::before{width:1px;height:44px}
+.view3d-axis::after{width:44px;height:1px}
+.view3d-axis i{position:absolute;top:8px;width:0;height:0;border-right:5px solid transparent;border-bottom:9px solid var(--brick);border-left:5px solid transparent}
+.view3d-axis span{position:absolute;bottom:7px}
+.view3d-controls{
+  position:relative;
+  z-index:3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  min-height:72px;
+  padding:11px 16px;
+  background:#202a29;
+  border-top:1px solid rgba(255,255,255,.12);
+}
+.view3d-controls .btn{min-width:106px;color:#fff;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2);box-shadow:none}
+.view3d-controls .btn-primary{background:var(--brick);border-color:#df8c70}
+.view3d-control-note{position:absolute;right:16px;color:rgba(255,255,255,.48);font-size:11px}
+
 /* ---------- 태블릿 세로 ---------- */
 @media (max-width:980px){
   body{overflow:auto}
@@ -767,6 +904,7 @@ button:focus-visible,input:focus-visible{
   #panel{max-height:34vh;padding:16px;border-top:1px solid var(--line);border-left:0}
   .bp-bar{flex-wrap:wrap}
   .bp-bar-note{order:4;width:100%}
+  .view3d-control-note{display:none}
 }
 
 @media (max-width:700px){
@@ -782,6 +920,14 @@ button:focus-visible,input:focus-visible{
   .modal-box{padding:21px 18px}
   .bp-side{grid-template-columns:1fr}
   .bp-mini-wrap{text-align:left}
+  .view3d-modal{padding:0}
+  .view3d-shell{width:100%;height:100vh;height:100dvh;min-height:0;border:0;border-top:4px solid var(--brick);border-radius:0}
+  .view3d-head{min-height:72px;padding:9px 11px 9px 14px;gap:9px}
+  .view3d-head h2{font-size:18px}
+  .view3d-status{max-width:132px;padding:6px 8px;font-size:11px;line-height:1.35;text-align:center}
+  .view3d-head .btn{padding-inline:11px}
+  .view3d-controls{min-height:68px;padding-inline:10px}
+  .view3d-controls .btn{min-width:0;flex:1;padding-inline:7px}
 }
 
 @media (max-width:520px){
@@ -799,4 +945,11 @@ button:focus-visible,input:focus-visible{
   .sheet{padding:18px 14px}
   .bp-bar strong{width:100%}
   .bp-bar .spacer{display:none}
+  .view3d-kicker{display:none}
+  .view3d-head{flex-wrap:wrap}
+  .view3d-head>div:first-child{flex:1}
+  .view3d-status{order:3;width:100%;max-width:none;margin-left:0}
+  .view3d-axis{top:12px;right:12px;transform:scale(.82);transform-origin:100% 0}
+  .view3d-drag-hint{left:10px;bottom:10px}
+  .view3d-angle{right:10px;bottom:12px}
 }

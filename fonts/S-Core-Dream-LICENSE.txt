@@ -1,0 +1,14 @@
+S-Core Dream font notice
+
+Copyright (c) S-Core Co., Ltd. All rights reserved.
+
+The S-Core fonts distributed through the S-Core website are provided free of
+charge to all users, including individuals and companies, and redistribution
+is permitted. Modifying the font files or selling the fonts themselves is not
+permitted.
+
+Official source and license information:
+https://s-core.co.kr/company/font/
+
+This application bundles the original, unmodified SCDream5.otf and
+SCDream7.otf files so that it continues to work offline from file://.
