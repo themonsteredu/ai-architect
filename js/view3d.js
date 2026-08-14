@@ -165,8 +165,11 @@
 
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 
-  function addCuboid(list, x, y, z, w, h, d, type, id) {
-    list.push({ x: x, y: y, z: z, w: w, h: h, d: d, type: type, id: id || 0 });
+  function addCuboid(list, x, y, z, w, h, d, type, id, seamRatio) {
+    list.push({
+      x: x, y: y, z: z, w: w, h: h, d: d,
+      type: type, id: id || 0, seamRatio: seamRatio || 0
+    });
   }
 
   function buildScene() {
@@ -200,11 +203,14 @@
         maxZ = Math.max(maxZ, headDepth);
       } else {
         var wythes = M.wythesOf(b);
-        for (var zc = 0; zc < wythes; zc++) {
-          addCuboid(cuboids, x + gap / 2, y + gap / 2, zc * depthUnit + gap / 2,
-            Math.max(0.5, w - gap), Math.max(0.5, h - gap), Math.max(0.5, depthUnit - gap), type, b.id * 3 + zc);
-        }
-        maxZ = Math.max(maxZ, wythes * depthUnit);
+        var wallDepth = wythes * depthUnit;
+        /* 앞줄·뒷줄은 서로 맞닿은 실제 벽돌입니다. 두 상자로 띄워 그리면
+           내부 면이 비쳐 보이므로, 외곽은 하나의 불투명한 부피로 그리고
+           두 겹일 때만 바깥 면에 줄눈을 다시 표시합니다. */
+        addCuboid(cuboids, x + gap / 2, y + gap / 2, gap / 2,
+          Math.max(0.5, w - gap), Math.max(0.5, h - gap), Math.max(0.5, wallDepth - gap),
+          type, b.id, wythes > 1 ? depthUnit / wallDepth : 0);
+        maxZ = Math.max(maxZ, wallDepth);
       }
     }
 
@@ -320,7 +326,8 @@
           depth: depth / def.ids.length,
           name: def.name,
           type: cuboid.type,
-          id: cuboid.id
+          id: cuboid.id,
+          seamRatio: cuboid.seamRatio
         });
       }
     }
@@ -393,6 +400,27 @@
       ctx.strokeStyle = face.type === 'fixed' ? 'rgba(229,239,233,.3)' : 'rgba(255,235,222,.3)';
       ctx.lineWidth = 1;
       ctx.stroke();
+    }
+
+    /* 두 겹 벽은 내부 면 대신 외곽 표면의 얇은 줄눈만 보여 줍니다. */
+    if (face.seamRatio && face.type !== 'slab') {
+      var t = face.seamRatio;
+      var a, b;
+      if (face.name === 'top' || face.name === 'left') {
+        a = { x: pts[0].x + (pts[1].x - pts[0].x) * t, y: pts[0].y + (pts[1].y - pts[0].y) * t };
+        b = { x: pts[3].x + (pts[2].x - pts[3].x) * t, y: pts[3].y + (pts[2].y - pts[3].y) * t };
+      } else if (face.name === 'right') {
+        a = { x: pts[0].x + (pts[3].x - pts[0].x) * t, y: pts[0].y + (pts[3].y - pts[0].y) * t };
+        b = { x: pts[1].x + (pts[2].x - pts[1].x) * t, y: pts[1].y + (pts[2].y - pts[1].y) * t };
+      }
+      if (a && b) {
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = face.type === 'fixed' ? 'rgba(34,48,43,.72)' : 'rgba(72,24,13,.76)';
+        ctx.lineWidth = 1.1;
+        ctx.stroke();
+      }
     }
   }
 
