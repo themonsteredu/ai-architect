@@ -40,7 +40,7 @@
     },
     slab: {
       front: '#263b37', back: '#182a26', left: '#20332f', right: '#1b2e2a',
-      top: '#344c46', bottom: '#0d1b18'
+      top: '#3a534c', bottom: '#203530'
     }
   };
 
@@ -340,7 +340,12 @@
     ctx.fill();
     ctx.restore();
 
-    faces.sort(function (a, b) { return b.depth - a.depth; });
+    /* 받침판은 먼저 그려 불투명해도 구조물을 가리지 않게 한다 */
+    faces.sort(function (a, b) {
+      if (a.type === 'slab' && b.type !== 'slab') return -1;
+      if (a.type !== 'slab' && b.type === 'slab') return 1;
+      return b.depth - a.depth;
+    });
     for (var j = 0; j < faces.length; j++) drawFace(faces[j], scale, ox, oy);
 
     var deg = Math.round((((yaw % TAU) + TAU) % TAU) * 180 / Math.PI);

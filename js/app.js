@@ -349,9 +349,11 @@
 
   function pointFromEvent(e) {
     var r = el.board.getBoundingClientRect();
+    var borderLeft = el.board.clientLeft || 0;
+    var borderBottom = Math.max(0, r.height - el.board.clientHeight - (el.board.clientTop || 0));
     return {
-      fx: (e.clientX - r.left) / state.cellPx,
-      fy: (r.bottom - e.clientY) / state.rowPx
+      fx: (e.clientX - r.left - borderLeft) / state.cellPx,
+      fy: (r.bottom - borderBottom - e.clientY) / state.rowPx
     };
   }
 
@@ -374,9 +376,9 @@
     }
     if (best || !generous) return best;
 
-    /* 손가락 탭은 유효 자리 둘레 약 10px까지 가장 가까운 자리로 보정 */
-    var padX = Math.min(0.38, 10 / Math.max(1, state.cellPx));
-    var padY = Math.min(0.38, 10 / Math.max(1, state.rowPx));
+    /* 손가락 탭은 유효 자리 둘레 약 12px까지 가장 가까운 자리로 보정 */
+    var padX = Math.min(0.5, 12 / Math.max(1, state.cellPx));
+    var padY = Math.min(0.5, 12 / Math.max(1, state.rowPx));
     for (var j = 0; j < state.spots.length; j++) {
       var near = state.spots[j];
       if (c.fx < near.x - padX || c.fx > near.x + near.w + padX ||
