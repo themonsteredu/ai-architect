@@ -709,8 +709,9 @@ button:focus-visible,input:focus-visible{
 .preset:nth-child(2)::before{content:'TYPE 02'}
 .preset:nth-child(3)::before{content:'TYPE 03'}
 .preset:hover,.preset:focus-visible{border-color:var(--brick);box-shadow:0 12px 25px rgba(83,48,37,.14);transform:translateY(-3px)}
-.preset-art{margin:3px 0 12px;padding:13px 9px 9px;background:linear-gradient(#fbf7ee,#f3eee4);border:1px solid #e7ddd1;border-radius:5px}
-.preset-art svg{display:block;width:100%;height:auto}
+.preset-art{position:relative;margin:3px 0 12px;aspect-ratio:16/9;overflow:hidden;background:#eee4d7;border:1px solid #dfd2c4;border-radius:6px}
+.preset-art img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 55%;filter:saturate(.98) contrast(1.02)}
+.preset-art-badge{position:absolute;right:7px;bottom:7px;padding:4px 6px;color:#fff;background:rgba(16,43,53,.8);border:1px solid rgba(255,255,255,.25);border-radius:3px;font-size:7px;font-weight:800;letter-spacing:.08em}
 .preset-name{color:var(--navy);font-size:17px;font-weight:850;letter-spacing:-.03em}
 .preset-desc{min-height:38px;margin-top:5px;color:var(--ink-soft);font-size:12.5px;line-height:1.48}
 .preset-meta{margin-top:9px;padding-top:8px;color:#7d6e65;border-top:1px dashed #d7cabe;font-size:11.5px;font-weight:650;font-variant-numeric:tabular-nums;line-height:1.5}
@@ -748,6 +749,22 @@ button:focus-visible,input:focus-visible{
 .switch-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-height:44px;font-size:14px;font-weight:750}
 .switch-row input{width:20px;height:20px;accent-color:var(--brick-dark)}
 .switch-row em{flex-basis:100%;font-style:normal;font-size:11.5px;font-weight:450;color:var(--ink-soft)}
+
+/* ---------- 강사용 코벨문 완성 유형 ---------- */
+.corbel-type-guide{position:relative;z-index:1;margin:0 0 16px;padding:17px;background:#122f39;border:1px solid #31515b;border-radius:9px;color:#eef5f5;box-shadow:0 9px 22px rgba(16,43,53,.15)}
+.corbel-type-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.corbel-type-head span{display:block;margin-bottom:5px;color:#e59a7e;font-size:8px;font-weight:850;letter-spacing:.16em}
+.corbel-type-head h3{margin:0;color:#fff;font-size:17px;font-weight:800;letter-spacing:-.035em}
+.corbel-type-head>strong{flex:none;padding:6px 8px;color:#9fc8ce;border:1px solid rgba(159,200,206,.3);border-radius:4px;font-size:9px;letter-spacing:.12em}
+.corbel-type-guide>p{margin:9px 0 14px;color:#b8cdd1;font-size:11.5px;line-height:1.6;word-break:keep-all}
+.corbel-type-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.corbel-type-card{overflow:hidden;background:#fffaf3;border:1px solid rgba(255,255,255,.22);border-radius:7px;color:var(--navy);box-shadow:0 5px 13px rgba(0,0,0,.17)}
+.corbel-type-image{aspect-ratio:4/3;overflow:hidden;background:#eee5d9}
+.corbel-type-image img{display:block;width:100%;height:100%;object-fit:cover}
+.corbel-type-copy{display:grid;gap:3px;padding:9px 10px 10px}
+.corbel-type-copy>span{color:#a65a41;font-size:7px;font-weight:850;letter-spacing:.14em}
+.corbel-type-copy strong{font-size:14px;font-weight:850}
+.corbel-type-copy small{color:#766a62;font-size:9.5px;font-weight:650;line-height:1.45}
 
 /* ---------- 조립 도면 ---------- */
 .modal-full{align-items:flex-start;justify-content:flex-start;padding:0;background:#d9e0df;backdrop-filter:none}
@@ -1006,6 +1023,11 @@ button:focus-visible,input:focus-visible{
   .architect-cover-art{max-width:340px;margin:-8px auto -12px}
   .architect-cover-no{right:25px;bottom:14px}
   .foundation-select{padding:22px 18px}
+  .corbel-type-guide{padding:14px 13px}
+  .corbel-type-head h3{font-size:15px;line-height:1.35}
+  .corbel-type-grid{grid-template-columns:1fr}
+  .corbel-type-card{display:grid;grid-template-columns:42% 1fr;align-items:center}
+  .corbel-type-copy{padding:8px 9px}
   .field-input input,input[type="text"],input[type="number"],input[type="password"],textarea,select{max-width:100%;font-size:16px}
   input.pin-input{font-size:28px}
   .bp-side{grid-template-columns:1fr}

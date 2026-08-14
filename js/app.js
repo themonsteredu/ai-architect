@@ -151,18 +151,9 @@
 
   /* 기초 미리보기 그림 */
   function presetArt(f) {
-    var cols = CONFIG.cols, cw = 8, ch = 8;
-    var s = ['<svg viewBox="0 0 ' + (cols * cw) + ' ' + (ch * 3) + '" width="100%">'];
-    for (var p = 0; p < 2; p++) {
-      var a = f.piers[p][0], b = f.piers[p][1];
-      for (var c = 0; c < 2; c++) {
-        s.push('<rect x="' + (a * cw) + '" y="' + ((1 - c) * ch + ch) + '" width="' + ((b - a + 1) * cw) + '" height="' + (ch - 1) +
-               '" fill="#d98b6e" stroke="#8b3a24" stroke-width="0.8"/>');
-      }
-    }
-    s.push('<rect x="0" y="' + (ch * 3 - 2) + '" width="' + (cols * cw) + '" height="2" fill="#c9a227"/>');
-    s.push('</svg>');
-    return s.join('');
+    var image = f.id === 'wide' ? 'wide' : (f.id === 'strong' ? 'strong' : 'narrow');
+    return '<img src="assets/corbel-types/' + image + '.jpg" alt="" draggable="false">' +
+      '<span class="preset-art-badge">3D 완성 예시</span>';
   }
 
   function startWith(fid) {

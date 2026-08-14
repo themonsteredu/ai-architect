@@ -1,7 +1,7 @@
 /* ===================================================================
    settings.js  —  강사 전용 설정 화면
 
-   - 4자리 숫자 비밀번호로 진입
+   - 3자리 숫자 비밀번호로 진입
    - 벽돌 가로/세로/높이(mm), 벽돌 개수 상한, 받침판 크기(mm)
    - 길이 ÷ 폭 이 정확히 2가 아니면 경고 (진행은 가능)
    - 정답 도면 공개 On/Off
@@ -58,8 +58,8 @@
     return '' +
       '<div class="modal-box modal-narrow">' +
       '  <h2>강사 설정</h2>' +
-      '  <p class="modal-desc">4자리 숫자 비밀번호를 입력하세요.</p>' +
-      '  <input id="pin-input" class="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off">' +
+      '  <p class="modal-desc">3자리 숫자 비밀번호를 입력하세요.</p>' +
+      '  <input id="pin-input" class="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off">' +
       '  <div id="pin-error" class="form-error"></div>' +
       '  <div class="modal-actions">' +
       '    <button class="btn" data-act="cancel">취소</button>' +
@@ -88,12 +88,42 @@
            (hint ? '<span class="field-hint">' + hint + '</span>' : '') + '</label>';
   }
 
+  function typeGuideHTML() {
+    var list = App.Foundation.list();
+    var images = { narrow: 'narrow', wide: 'wide', strong: 'strong' };
+    var h = [
+      '<section class="corbel-type-guide" aria-labelledby="corbel-type-title">',
+      '  <div class="corbel-type-head"><div>',
+      '    <span>TEACHING GUIDE · 완성 유형</span>',
+      '    <h3 id="corbel-type-title">이 수업에서 만드는 코벨문은 3가지 유형</h3>',
+      '  </div><strong>3 TYPES</strong></div>',
+      '  <p>기초 선택에 따라 대표 구조는 3종입니다. 같은 유형 안에서도 학생이 벽돌을 놓는 순서와 유효 자리 선택에 따라 세부 모습은 조금씩 달라질 수 있습니다.</p>',
+      '  <div class="corbel-type-grid">'
+    ];
+    for (var i = 0; i < list.length; i++) {
+      var f = list[i];
+      var solved = App.Solver.solve(App.Foundation.create(f.id));
+      var used = solved ? App.Model.totalCost(solved) : 0;
+      var floors = solved ? App.Model.topRow(solved) + 1 : 0;
+      var image = images[f.id] || 'narrow';
+      h.push('<article class="corbel-type-card">' +
+        '<div class="corbel-type-image"><img src="assets/corbel-types/' + image + '.jpg" alt="' + f.name + ' 대표 완성 모형"></div>' +
+        '<div class="corbel-type-copy"><span>TYPE 0' + (i + 1) + '</span><strong>' + f.name + '</strong>' +
+        '<small>문 폭 ' + f.openMm + 'mm · ' + floors + '단 · ' + used + '/' + CONFIG.maxBricks + '장</small></div>' +
+        '</article>');
+    }
+    h.push('  </div>', '</section>');
+    return h.join('');
+  }
+
   function formHTML() {
     var c = CONFIG;
     return '' +
       '<div class="modal-box modal-wide">' +
       '  <h2>강사 설정</h2>' +
       '  <p class="modal-desc">벽돌 치수를 바꾸면 격자·검증·도면이 모두 자동으로 따라옵니다.</p>' +
+
+           typeGuideHTML() +
 
       '  <fieldset class="form-group"><legend>벽돌</legend>' +
       '    <div class="form-row">' +
@@ -117,8 +147,8 @@
       '    <label class="switch-row"><input id="f-answer" type="checkbox"' + (c.showAnswer ? ' checked' : '') + '>' +
       '      <span>정답 도면 공개</span>' +
       '      <em>켜면 학생 화면에 「정답 도면」 버튼이 생깁니다. 연 학생에게는 기록이 남습니다.</em></label>' +
-      '    <label class="field field-inline"><span class="field-label">설정 비밀번호 (4자리)</span>' +
-      '      <span class="field-input"><input id="f-pin" type="text" inputmode="numeric" maxlength="4" value="' + c.pin + '"></span></label>' +
+      '    <label class="field field-inline"><span class="field-label">설정 비밀번호 (3자리)</span>' +
+      '      <span class="field-input"><input id="f-pin" type="text" inputmode="numeric" maxlength="3" value="' + c.pin + '"></span></label>' +
       '    <button class="btn btn-ghost" disabled title="다음 버전에서 제공됩니다">수업 슬라이드 보기 (준비 중)</button>' +
       '  </fieldset>' +
 
@@ -196,8 +226,8 @@
         err.textContent = '숫자를 모두 0보다 크게 넣어 주세요.';
         return;
       }
-      if (String(v.pin).replace(/\D/g, '').length !== 4) {
-        err.textContent = '비밀번호는 숫자 4자리여야 합니다.';
+      if (String(v.pin).replace(/\D/g, '').length !== 3) {
+        err.textContent = '비밀번호는 숫자 3자리여야 합니다.';
         return;
       }
       var dimsChanged = (v.brickLength !== CONFIG.brickLength || v.brickWidth !== CONFIG.brickWidth ||

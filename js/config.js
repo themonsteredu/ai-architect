@@ -10,6 +10,7 @@
   'use strict';
 
   var STORAGE_KEY = 'cobel.settings.v1';
+  var PIN_MIGRATION_KEY = 'cobel.pin.303.v1';
 
   /* ---- 공장 출고값 (실물 미니 벽돌 기준) ---------------------------- */
   var DEFAULTS = {
@@ -19,7 +20,7 @@
     maxBricks: 60,      // 장   1인당 벽돌 상한
     boardWidth: 150,    // mm  받침판 가로
     boardDepth: 150,    // mm  받침판 세로
-    pin: '1234',        // 강사 설정 4자리 비밀번호
+    pin: '303',         // 강사 설정 3자리 비밀번호
     showAnswer: false   // 정답 도면 공개 On/Off
   };
 
@@ -37,6 +38,12 @@
             out[j] = saved[j];
           }
         }
+      }
+      /* 기존 태블릿에 저장된 1234도 새 기본 PIN 303으로 한 번만 교체 */
+      if (global.localStorage && global.localStorage.getItem(PIN_MIGRATION_KEY) !== '1') {
+        out.pin = DEFAULTS.pin;
+        global.localStorage.setItem(STORAGE_KEY, JSON.stringify(out));
+        global.localStorage.setItem(PIN_MIGRATION_KEY, '1');
       }
     } catch (e) { /* 저장소를 못 쓰는 환경이면 그냥 기본값 */ }
     return out;
@@ -139,8 +146,8 @@
       if (patch.boardWidth  !== undefined) current.boardWidth  = clampNum(patch.boardWidth,  40, 2000, DEFAULTS.boardWidth);
       if (patch.boardDepth  !== undefined) current.boardDepth  = clampNum(patch.boardDepth,  20, 2000, DEFAULTS.boardDepth);
       if (patch.pin         !== undefined) {
-        var p = String(patch.pin).replace(/\D/g, '').slice(0, 4);
-        if (p.length === 4) current.pin = p;
+        var p = String(patch.pin).replace(/\D/g, '').slice(0, 3);
+        if (p.length === 3) current.pin = p;
       }
       if (patch.showAnswer  !== undefined) current.showAnswer = !!patch.showAnswer;
       persist();
