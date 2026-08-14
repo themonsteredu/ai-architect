@@ -89,7 +89,7 @@
       '</section>',
       '<section class="foundation-select" id="foundation-select" hidden>',
       '<h2>어떤 문으로 시작할까요?</h2>',
-      '<p class="modal-desc">기초 2단은 미리 깔아 드립니다. 여기서부터 <b>코벨(내밀어쌓기)</b>로 문을 닫아 보세요.</p>',
+      '<p class="modal-desc">기초 2단은 미리 깔아 드립니다. 아래 그림은 <b>완성 예시가 아니라 시작 상태</b>입니다. 여기서부터 각자의 방법으로 문을 닫아 보세요.</p>',
       '<div class="preset-grid">'];
 
     for (var i = 0; i < list.length; i++) {
@@ -152,8 +152,8 @@
   /* 기초 미리보기 그림 */
   function presetArt(f) {
     var image = f.id === 'wide' ? 'wide' : (f.id === 'strong' ? 'strong' : 'narrow');
-    return '<img src="assets/corbel-types/' + image + '.jpg" alt="" draggable="false">' +
-      '<span class="preset-art-badge">3D 완성 예시</span>';
+    return '<img src="assets/corbel-foundations/' + image + '.png" alt="' + f.name + '의 기초 2단 입체 시작 상태" draggable="false">' +
+      '<span class="preset-art-badge">기초 2단 · 정답 아님</span>';
   }
 
   function startWith(fid) {
@@ -324,7 +324,7 @@
     doc.getElementById('btn-undo').disabled = state.history.length === 0;
     el.hintNote.textContent = state.tool === 'erase'
       ? '지우기 — 지울 벽돌을 누르세요 (기초는 못 지웁니다)'
-      : (state.orient === 'lie' ? '눕히기' : '세우기') + ' · ' + (state.wythes === 2 ? '두 겹 (앞뒤)' : '한 겹 (앞줄만)');
+      : (state.orient === 'lie' ? '길이 방향' : '90° 돌려놓기') + ' · ' + (state.wythes === 2 ? '두 겹 (앞뒤)' : '한 겹 (앞줄만)');
   }
 
   /* =================================================================
@@ -534,7 +534,7 @@
     state.tool = 'place';
     state.hint = mv;
     render();
-    showMessage('반짝이는 자리에 ' + (mv.orient === 'lie' ? '눕히기' : '세우기') + ' ' +
+    showMessage('반짝이는 자리에 ' + (mv.orient === 'lie' ? '길이 방향' : '같은 벽돌을 90° 돌려') + ' ' +
                 (mv.wythes >= 2 ? '두 겹' : '한 겹') + '으로 놓아 보세요. (설계는 그대로입니다)', 'hint');
     global.setTimeout(function () {
       if (state.hint === mv) { state.hint = null; render(); }

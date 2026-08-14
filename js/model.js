@@ -5,7 +5,7 @@
      { id, x, y, orient:'lie'|'head', wythes:1|2, fixed:true? }
      x, y 는 격자 좌표. y=0 이 받침판 바로 위(1층).
      orient 'lie'  = 눕히기 (가로 2칸, 1겹)
-     orient 'head' = 세우기 (가로 1칸, 앞뒤 2겹을 한 번에)
+     orient 'head' = 같은 벽돌을 바닥에서 90° 돌려놓기 (가로 1칸, 앞뒤 2겹을 한 번에)
      wythes 1 = 앞줄만, 2 = 앞줄+뒷줄
      fixed  = 미리 깔아둔 기초 (지울 수 없음)
 
@@ -34,7 +34,7 @@
 
   /* 실물 벽돌 몇 장이 드는가 */
   function cost(b) {
-    if (b.orient === 'head') return 1;              // 세우기는 한 장으로 앞뒤를 채움
+    if (b.orient === 'head') return 1;              // 90° 돌린 같은 벽돌 한 장으로 앞뒤를 채움
     return b.wythes || 1;                            // 눕히기는 겹 수만큼
   }
 

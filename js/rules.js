@@ -183,7 +183,7 @@
      ----------------------------------------------------------------- */
   function canThicken(ctx, brick) {
     if (!brick) return fail('NONE', '벽돌이 없어요');
-    if (brick.orient === 'head') return fail('ALREADY', '세우기 벽돌은 이미 앞뒤를 채우고 있어요');
+    if (brick.orient === 'head') return fail('ALREADY', '90° 돌려놓은 벽돌은 긴 방향이 앞뒤를 이미 채우고 있어요');
     if (M.wythesOf(brick) >= 2) return fail('ALREADY', '이미 두 겹이에요');
     if (ctx.used + 1 > ctx.max) return fail('BUDGET', '벽돌을 다 썼어요');
 

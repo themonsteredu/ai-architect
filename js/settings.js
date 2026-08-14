@@ -94,10 +94,10 @@
     var h = [
       '<section class="corbel-type-guide" aria-labelledby="corbel-type-title">',
       '  <div class="corbel-type-head"><div>',
-      '    <span>TEACHING GUIDE · 완성 유형</span>',
-      '    <h3 id="corbel-type-title">이 수업에서 만드는 코벨문은 3가지 유형</h3>',
-      '  </div><strong>3 TYPES</strong></div>',
-      '  <p>기초 선택에 따라 대표 구조는 3종입니다. 같은 유형 안에서도 학생이 벽돌을 놓는 순서와 유효 자리 선택에 따라 세부 모습은 조금씩 달라질 수 있습니다.</p>',
+      '    <span>TEACHING GUIDE · 참고 해법</span>',
+      '    <h3 id="corbel-type-title">검증을 통과하는 참고 해법 3가지</h3>',
+      '  </div><strong>3 SOLUTIONS</strong></div>',
+      '  <p>이 그림은 유일한 완성품이 아니라 앱의 솔버가 만든 참고 해법입니다. 학생의 유효 자리 선택에 따라 다른 모습도 검증을 통과할 수 있습니다.</p>',
       '  <div class="corbel-type-grid">'
     ];
     for (var i = 0; i < list.length; i++) {
@@ -107,12 +107,14 @@
       var floors = solved ? App.Model.topRow(solved) + 1 : 0;
       var image = images[f.id] || 'narrow';
       h.push('<article class="corbel-type-card">' +
-        '<div class="corbel-type-image"><img src="assets/corbel-types/' + image + '.jpg" alt="' + f.name + ' 대표 완성 모형"></div>' +
+        '<div class="corbel-type-image"><img src="assets/corbel-completions/' + image + '.png" alt="' + f.name + '의 절단 없는 동일 규격 벽돌 정답 도면"></div>' +
         '<div class="corbel-type-copy"><span>TYPE 0' + (i + 1) + '</span><strong>' + f.name + '</strong>' +
         '<small>문 폭 ' + f.openMm + 'mm · ' + floors + '단 · ' + used + '/' + CONFIG.maxBricks + '장</small></div>' +
         '</article>');
     }
-    h.push('  </div>', '</section>');
+    h.push('  </div>',
+      '  <div class="corbel-brick-note"><b>짧은 벽돌이 아닙니다</b><span>정면에서 정사각형으로 보이는 칸은 같은 19×9×9mm 벽돌을 바닥에서 90° 돌려, 긴 19mm 방향이 앞뒤로 놓인 상태입니다. 절단 벽돌은 사용하지 않습니다.</span></div>',
+      '</section>');
     return h.join('');
   }
 
@@ -149,7 +151,7 @@
       '      <em>켜면 학생 화면에 「정답 도면」 버튼이 생깁니다. 연 학생에게는 기록이 남습니다.</em></label>' +
       '    <label class="field field-inline"><span class="field-label">설정 비밀번호 (3자리)</span>' +
       '      <span class="field-input"><input id="f-pin" type="text" inputmode="numeric" maxlength="3" value="' + c.pin + '"></span></label>' +
-      '    <button class="btn btn-ghost" disabled title="다음 버전에서 제공됩니다">수업 슬라이드 보기 (준비 중)</button>' +
+      '    <button class="btn btn-lesson" data-act="lesson" type="button"><span>수업 슬라이드 보기</span><em>코벨문 원리 · 역사 · 구조 · 실습 질문</em></button>' +
       '  </fieldset>' +
 
       '  <div id="form-error" class="form-error"></div>' +
@@ -211,6 +213,10 @@
   }
 
   function handleFormAction(act) {
+    if (act === 'lesson') {
+      if (App.Lesson) App.Lesson.open();
+      return;
+    }
     if (act === 'reset') {
       if (!global.confirm('모든 설정을 공장 출고값으로 되돌립니다. 지금 설계는 지워집니다. 계속할까요?')) return;
       CONFIG.resetToDefaults();

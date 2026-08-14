@@ -47,7 +47,7 @@
       <div class="tool-group">
         <div class="tool-label">벽돌 방향</div>
         <button data-orient="lie" class="tool on"><span class="ico ico-lie"></span><span class="tool-text">눕히기<em>가로 2칸</em></span></button>
-        <button data-orient="head" class="tool"><span class="ico ico-head"></span><span class="tool-text">세우기<em>가로 1칸</em></span></button>
+        <button data-orient="head" class="tool"><span class="ico ico-head"></span><span class="tool-text">90° 돌려놓기<em>같은 벽돌 · 끝면 1칸</em></span></button>
       </div>
 
       <div class="tool-group">
@@ -103,6 +103,27 @@
 <div id="start-modal" class="modal"></div>
 <div id="settings-modal" class="modal"></div>
 
+<div id="lesson-modal" class="modal lesson-modal" role="dialog" aria-modal="true" aria-labelledby="lesson-title">
+  <section class="lesson-shell">
+    <header class="lesson-bar">
+      <div>
+        <span>INSTRUCTOR LESSON DECK</span>
+        <strong id="lesson-title">코벨문 수업 슬라이드</strong>
+      </div>
+      <span id="lesson-count" class="lesson-count">1 / 8</span>
+      <button id="btn-lesson-notes" class="btn" type="button" aria-pressed="false">강사 노트</button>
+      <button id="btn-lesson-close" class="btn" type="button">닫기</button>
+    </header>
+    <div id="lesson-stage" class="lesson-stage"></div>
+    <aside id="lesson-notes" class="lesson-notes" hidden></aside>
+    <footer class="lesson-controls">
+      <button id="btn-lesson-prev" class="btn" type="button">← 이전</button>
+      <div id="lesson-dots" class="lesson-dots" aria-label="슬라이드 선택"></div>
+      <button id="btn-lesson-next" class="btn btn-primary" type="button">다음 →</button>
+    </footer>
+  </section>
+</div>
+
 <div id="view3d-modal" class="modal view3d-modal" role="dialog" aria-modal="true" aria-labelledby="view3d-title">
   <section class="view3d-shell">
     <header class="view3d-head">
@@ -151,6 +172,7 @@
 <script src="js/sound.js"></script>
 <script src="js/collapse.js"></script>
 <script src="js/blueprint.js"></script>
+<script src="js/lesson.js"></script>
 <script src="js/settings.js"></script>
 <script src="js/view3d.js"></script>
 <script src="js/app.js"></script>
