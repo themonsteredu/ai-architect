@@ -74,7 +74,20 @@
      ================================================================= */
   function showStart() {
     var list = App.Foundation.list();
-    var h = ['<div class="modal-box modal-wide">',
+    var h = ['<div class="modal-box modal-wide start-shell">',
+      '<section class="architect-cover" id="architect-cover">',
+      '<div class="architect-cover-copy">',
+      '<span class="architect-cover-kicker">MIDDLE SCHOOL · CAREER EXPERIENCE</span>',
+      '<p class="architect-cover-role">오늘의 직업 <b>건축가</b></p>',
+      '<h1>벽돌의 균형으로<br><em>문을 설계하다</em></h1>',
+      '<p class="architect-cover-desc">도면을 읽고, 구조를 실험하고, 실제 미니 벽돌로 완성하는 코벨문 건축 프로젝트</p>',
+      '<div class="architect-cover-tags"><span>STRUCTURE</span><span>BALANCE</span><span>BLUEPRINT</span></div>',
+      '<button class="btn btn-primary architect-cover-start" id="btn-cover-start" type="button">설계 시작하기 <span>→</span></button>',
+      '</div>',
+      '<div class="architect-cover-art" aria-hidden="true">' + architectCoverArt() + '</div>',
+      '<div class="architect-cover-no">ARCHITECT LAB · PROJECT 01</div>',
+      '</section>',
+      '<section class="foundation-select" id="foundation-select" hidden>',
       '<h2>어떤 문으로 시작할까요?</h2>',
       '<p class="modal-desc">기초 2단은 미리 깔아 드립니다. 여기서부터 <b>코벨(내밀어쌓기)</b>로 문을 닫아 보세요.</p>',
       '<div class="preset-grid">'];
@@ -90,16 +103,50 @@
     }
     h.push('</div>');
     h.push('<p class="modal-foot">벽돌 ' + CONFIG.brickLabel + ' · 1인당 ' + CONFIG.maxBricks + '장 · 받침판 ' + CONFIG.boardLabel + '</p>');
+    h.push('</section>');
     h.push('</div>');
 
     el.startModal.innerHTML = h.join('');
     el.startModal.classList.add('open');
 
     el.startModal.onclick = function (e) {
+      var coverBtn = e.target.closest ? e.target.closest('#btn-cover-start') : null;
+      if (coverBtn) {
+        doc.getElementById('architect-cover').hidden = true;
+        doc.getElementById('foundation-select').hidden = false;
+        el.startModal.scrollTop = 0;
+        var firstPreset = el.startModal.querySelector('.preset');
+        if (firstPreset) firstPreset.focus();
+        return;
+      }
       var btn = e.target.closest ? e.target.closest('.preset') : null;
       if (!btn) return;
       startWith(btn.getAttribute('data-fid'));
     };
+  }
+
+  function architectCoverArt() {
+    return '<svg viewBox="0 0 520 430" role="img" aria-label="벽돌 코벨문 건축 도면">' +
+      '<defs>' +
+      '<pattern id="cover-grid" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M22 0H0V22" fill="none" stroke="#89aab2" stroke-opacity=".16" stroke-width="1"/></pattern>' +
+      '<linearGradient id="cover-brick" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e28a68"/><stop offset="1" stop-color="#a9452d"/></linearGradient>' +
+      '<linearGradient id="cover-top" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0b39a"/><stop offset="1" stop-color="#cc6d4e"/></linearGradient>' +
+      '</defs>' +
+      '<rect width="520" height="430" rx="18" fill="#122f39"/><rect width="520" height="430" rx="18" fill="url(#cover-grid)"/>' +
+      '<path d="M48 350L258 247l214 104-212 54z" fill="#0b2027" stroke="#7b9aa2" stroke-opacity=".42" stroke-width="2"/>' +
+      '<g stroke="#6d2a1b" stroke-width="2">' +
+      '<path d="M94 316l73-36 0 40-73 36z" fill="url(#cover-brick)"/><path d="M167 280l28 14v39l-28-13z" fill="#87301f"/><path d="M94 316l73-36 28 14-73 36z" fill="url(#cover-top)"/>' +
+      '<path d="M111 270l73-36v40l-73 36z" fill="url(#cover-brick)"/><path d="M184 234l28 14v39l-28-13z" fill="#87301f"/><path d="M111 270l73-36 28 14-73 36z" fill="url(#cover-top)"/>' +
+      '<path d="M137 226l73-36v40l-73 36z" fill="url(#cover-brick)"/><path d="M210 190l28 14v39l-28-13z" fill="#87301f"/><path d="M137 226l73-36 28 14-73 36z" fill="url(#cover-top)"/>' +
+      '<path d="M426 316l-73-36v40l73 36z" fill="url(#cover-brick)"/><path d="M353 280l-28 14v39l28-13z" fill="#87301f"/><path d="M426 316l-73-36-28 14 73 36z" fill="url(#cover-top)"/>' +
+      '<path d="M409 270l-73-36v40l73 36z" fill="url(#cover-brick)"/><path d="M336 234l-28 14v39l28-13z" fill="#87301f"/><path d="M409 270l-73-36-28 14 73 36z" fill="url(#cover-top)"/>' +
+      '<path d="M383 226l-73-36v40l73 36z" fill="url(#cover-brick)"/><path d="M310 190l-28 14v39l28-13z" fill="#87301f"/><path d="M383 226l-73-36-28 14 73 36z" fill="url(#cover-top)"/>' +
+      '<path d="M210 190l75-37 46 22-76 38z" fill="url(#cover-top)"/><path d="M210 190l45 23v40l-45-23z" fill="#bb5439"/><path d="M255 213l76-38v40l-76 38z" fill="#8f3422"/>' +
+      '</g>' +
+      '<g fill="none" stroke="#a9d8df" stroke-width="1.5" stroke-dasharray="6 6" opacity=".8"><path d="M68 374H454"/><path d="M68 366v16M454 366v16"/><path d="M260 72v274"/></g>' +
+      '<g fill="#c9e1e5" font-family="sans-serif" font-size="12" font-weight="700"><text x="220" y="62">CENTER LINE</text><text x="211" y="400">150 mm BASE</text></g>' +
+      '<circle cx="260" cy="72" r="5" fill="#dc7656"/>' +
+      '</svg>';
   }
 
   /* 기초 미리보기 그림 */
@@ -316,7 +363,7 @@
   }
 
   /* 클릭 지점을 품고 있는 초록 자리 중 가장 가까운 것 */
-  function pickSpot(c) {
+  function pickSpot(c, generous) {
     var best = null, bestD = Infinity;
     for (var i = 0; i < state.spots.length; i++) {
       var s = state.spots[i];
@@ -324,6 +371,20 @@
       if (c.y < s.y || c.y >= s.y + s.h) continue;
       var d = Math.abs(c.fx - (s.x + s.w / 2)) + Math.abs(c.fy - (s.y + s.h / 2)) * 0.5;
       if (d < bestD) { bestD = d; best = s; }
+    }
+    if (best || !generous) return best;
+
+    /* 손가락 탭은 유효 자리 둘레 약 10px까지 가장 가까운 자리로 보정 */
+    var padX = Math.min(0.38, 10 / Math.max(1, state.cellPx));
+    var padY = Math.min(0.38, 10 / Math.max(1, state.rowPx));
+    for (var j = 0; j < state.spots.length; j++) {
+      var near = state.spots[j];
+      if (c.fx < near.x - padX || c.fx > near.x + near.w + padX ||
+          c.fy < near.y - padY || c.fy > near.y + near.h + padY) continue;
+      var dx = c.fx < near.x ? near.x - c.fx : (c.fx > near.x + near.w ? c.fx - near.x - near.w : 0);
+      var dy = c.fy < near.y ? near.y - c.fy : (c.fy > near.y + near.h ? c.fy - near.y - near.h : 0);
+      var nearD = dx * state.cellPx + dy * state.rowPx;
+      if (nearD < bestD) { bestD = nearD; best = near; }
     }
     return best;
   }
@@ -365,7 +426,7 @@
 
     if (state.tool === 'erase') { eraseAt(c); return; }
 
-    var spot = pickSpot(c);
+    var spot = pickSpot(c, true);
     if (spot) { place(spot); return; }
 
     /* 이미 있는 벽돌 뒤에 한 겹 더 붙이기 */

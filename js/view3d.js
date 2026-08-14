@@ -31,16 +31,16 @@
   var TAU = Math.PI * 2;
   var PALETTES = {
     brick: {
-      front: '#cf6b4b', back: '#873722', left: '#a44830', right: '#903922',
-      top: '#efa07d', bottom: '#622719'
+      front: '#d56b48', back: '#752716', left: '#a94128', right: '#87301d',
+      top: '#f1a07d', bottom: '#4f190f'
     },
     fixed: {
-      front: '#a8afa9', back: '#69736e', left: '#838c86', right: '#737d77',
-      top: '#d3d6cf', bottom: '#4c5752'
+      front: '#7d8b85', back: '#3e4b46', left: '#5e6c66', right: '#4f5e58',
+      top: '#aeb9b3', bottom: '#293630'
     },
     slab: {
-      front: '#33423e', back: '#23302d', left: '#2c3a36', right: '#26332f',
-      top: '#42534e', bottom: '#18211f'
+      front: '#263b37', back: '#182a26', left: '#20332f', right: '#1b2e2a',
+      top: '#344c46', bottom: '#0d1b18'
     }
   };
 
@@ -126,8 +126,8 @@
     var dy = e.clientY - lastY;
     lastX = e.clientX;
     lastY = e.clientY;
-    yaw += dx * 0.012;
-    pitch = clamp(pitch - dy * 0.008, 0.1, 1.08);
+    yaw += dx * 0.018;
+    pitch = clamp(pitch - dy * 0.011, 0.1, 1.08);
     draw();
     e.preventDefault();
   }
@@ -371,13 +371,13 @@
     gradient.addColorStop(0, base);
     gradient.addColorStop(1, colorVariation(palette[face.name], variation - 6));
     ctx.save();
-    if (face.type === 'slab') ctx.globalAlpha = 0.42;
     ctx.fillStyle = gradient;
     ctx.fill();
-    ctx.lineWidth = face.type === 'slab' ? 0.8 : 1.15;
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = face.type === 'slab' ? 1.35 : 1.45;
     ctx.strokeStyle = face.type === 'slab'
-      ? 'rgba(194,214,207,.18)'
-      : (face.type === 'fixed' ? 'rgba(235,240,234,.28)' : 'rgba(61,22,13,.78)');
+      ? 'rgba(7,18,15,.92)'
+      : (face.type === 'fixed' ? 'rgba(29,43,38,.92)' : 'rgba(54,17,9,.92)');
     ctx.stroke();
     ctx.restore();
 
@@ -385,7 +385,7 @@
       ctx.beginPath();
       ctx.moveTo(pts[0].x, pts[0].y + 1);
       ctx.lineTo(pts[1].x, pts[1].y + 1);
-      ctx.strokeStyle = 'rgba(255,235,222,.18)';
+      ctx.strokeStyle = face.type === 'fixed' ? 'rgba(229,239,233,.3)' : 'rgba(255,235,222,.3)';
       ctx.lineWidth = 1;
       ctx.stroke();
     }
