@@ -343,6 +343,20 @@
     g.style.height = (s.h * state.rowPx) + 'px';
   }
 
+  /* 이미 차지된 칸을 누르면 겹치는 벽돌 자체를 알려준다 */
+  function flashOccupied(id) {
+    var node = state.elsById[id];
+    if (!node) return;
+    if (node._occupiedTimer) global.clearTimeout(node._occupiedTimer);
+    node.classList.remove('occupied-flash');
+    void node.offsetWidth;
+    node.classList.add('occupied-flash');
+    node._occupiedTimer = global.setTimeout(function () {
+      node.classList.remove('occupied-flash');
+      node._occupiedTimer = null;
+    }, 900);
+  }
+
   function onClick(e) {
     if (state.busy || !state.design) return;
     App.Sound.unlock();
@@ -357,14 +371,18 @@
     /* 이미 있는 벽돌 뒤에 한 겹 더 붙이기 */
     var maps = M.buildMaps(state.design);
     var id = M.idAt(maps, c.x, c.y);
-    if (id && state.wythes === 2) {
+    if (id) {
       var brick = maps.byId[id];
-      if (M.wythesOf(brick) === 1) {
+      if (state.wythes === 2 && M.wythesOf(brick) === 1) {
         var res = Rules.canThicken(Rules.makeContext(state.design), brick);
         if (res.ok) { thicken(brick); return; }
+        flashOccupied(id);
         showMessage(res.message, 'no');
         return;
       }
+      flashOccupied(id);
+      showMessage((c.y + 1) + '층의 빨간 벽돌이 이미 이 칸을 차지하고 있어요.', 'no');
+      return;
     }
 
     var why = explainAt(c);
